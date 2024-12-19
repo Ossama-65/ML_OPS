@@ -200,13 +200,12 @@ Ces solutions couvrent les problèmes les plus courants rencontrés lors de la m
 
 ---
 
-## Auteurs 👩‍💻👨‍💻
+## Auteurs 🧑‍🎓🧑‍🎓✍️
 
-- Ossama-65 : Développeur principal et gestionnaire du projet.  
+- Manel Zerguit : Responsable de l'intégration CI/CD.
+- Ossama Louridi : Spécialiste en monitoring et infrastructure cloud.
+- Aziz BenAyed : Développement des pipelines ML et API. 
 
-Pour toute contribution ou question, consultez le [repository GitHub](https://github.com/Ossama-65/ML_OPS). 🙌
-
----
 
 Ce document a été conçu pour offrir une vue détaillée et pratique du projet MLOps. Il s'adresse à la fois aux débutants et aux experts souhaitant implémenter une solution ML complète et fiable.
 
