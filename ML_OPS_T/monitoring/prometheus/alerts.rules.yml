@@ -1,0 +1,20 @@
+- name: Deploy Monitoring Stack
+  hosts: all
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+    - name: Install Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.22.0/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+    - name: Clone Monitoring Repository
+      git:
+        repo: https://github.com/your-repo/mlops-monitoring.git
+        dest: /home/ubuntu/monitoring
+    - name: Start Monitoring Stack
+      shell: |
+        cd /home/ubuntu/monitoring
+        docker-compose up -d

@@ -1,0 +1,28 @@
+- name: Configuration de l'instance EC2
+  hosts: all
+  become: true
+  tasks:
+    - name: Installer les mises à jour
+      apt:
+        update_cache: yes
+
+    - name: Installer Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Démarrer et activer Docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Installer Docker Compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x'
+    - name: Lancer l'API
+      shell: |
+      nohup python3 /home/ubuntu/mlflow/app.py > /home/ubuntu/mlflow/api.log 2>&1 &
+

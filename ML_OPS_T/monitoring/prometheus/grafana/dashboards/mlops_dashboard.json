@@ -1,0 +1,62 @@
+{
+    "dashboard": {
+      "id": null,
+      "uid": "mlops-dashboard",
+      "title": "MLOps Dashboard",
+      "tags": ["mlops", "monitoring"],
+      "timezone": "browser",
+      "panels": [
+        {
+          "type": "gauge",
+          "title": "Model Accuracy",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "mlops_model_accuracy",
+              "format": "time_series"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "value": 0, "color": "red" },
+                  { "value": 50, "color": "yellow" },
+                  { "value": 80, "color": "green" }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "graph",
+          "title": "Training Time Over Runs",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "mlops_training_time_seconds",
+              "format": "time_series"
+            }
+          ],
+          "xaxis": {
+            "mode": "time"
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Prediction Requests",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "mlops_prediction_requests_total",
+              "format": "time_series"
+            }
+          ]
+        }
+      ],
+      "schemaVersion": 36,
+      "version": 1
+    }
+  }
+  

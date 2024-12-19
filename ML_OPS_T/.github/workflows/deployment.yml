@@ -1,0 +1,33 @@
+name: Déploiement Automatique
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v3
+
+    - name: Configurer AWS CLI
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Déployer l'image Docker sur ECR
+      run: |
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <votre-id-ecr>.dkr.ecr.us-east-1.amazonaws.com
+        docker build -t mlops-project .
+        docker tag mlops-project:latest <votre-id-ecr>.dkr.ecr.us-east-1.amazonaws.com/mlops-project:latest
+        docker push <votre-id-ecr>.dkr.ecr.us-east-1.amazonaws.com/mlops-project:latest
+
+    - name: Déployer sur EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/mlops-key_ok.pem ubuntu@<IP-EC2> "docker pull <votre-id-ecr>.dkr.ecr.us-east-1.amazonaws.com/mlops-project:latest && docker run -d -p 5000:5000 mlops-project:latest"

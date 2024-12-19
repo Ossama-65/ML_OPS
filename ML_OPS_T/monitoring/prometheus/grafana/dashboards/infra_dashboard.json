@@ -1,0 +1,62 @@
+{
+    "dashboard": {
+      "id": null,
+      "uid": "infra-dashboard",
+      "title": "Infrastructure Dashboard",
+      "tags": ["infrastructure", "monitoring"],
+      "timezone": "browser",
+      "panels": [
+        {
+          "type": "gauge",
+          "title": "CPU Usage (%)",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "100 - (avg(rate(node_cpu_seconds_total{mode='idle'}[5m])) * 100)",
+              "format": "time_series"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "value": 0, "color": "green" },
+                  { "value": 70, "color": "yellow" },
+                  { "value": 90, "color": "red" }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "graph",
+          "title": "Memory Usage",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "(1 - ((node_memory_MemAvailable_bytes) / (node_memory_MemTotal_bytes))) * 100",
+              "format": "time_series"
+            }
+          ],
+          "xaxis": {
+            "mode": "time"
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Disk Space Remaining",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "node_filesystem_free_bytes / node_filesystem_size_bytes * 100",
+              "format": "time_series"
+            }
+          ]
+        }
+      ],
+      "schemaVersion": 36,
+      "version": 1
+    }
+  }
+  
